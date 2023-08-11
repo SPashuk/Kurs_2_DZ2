@@ -1,0 +1,16 @@
+# Project exclude paths
+# кэш зависимые
+/node_modules
+/packages
+# каталоги для выходных данных сборки
+/In
+/Out
+/TMP
+/bin
+/target
+*.ipynb
+*.log
+*.lock
+*.tmp
+token.*
+token
