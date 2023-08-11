@@ -1,41 +1,49 @@
-сreated –U postgres MusicLand
-CREATE TABLE IF NOT EXISTS Genre(
-    ID SERIAL PRIMARY KEY, 
-    Genre_Name VARCHAR(40) NOT NULL);
-CREATE TABLE IF NOT EXISTS Musician(
-    ID SERIAL PRIMARY KEY, 
-    First_Name VARCHAR(40) NOT NULL, 
-    Nick_Name VARCHAR(40) NOT NULL
-    );
-CREATE TABLE IF NOT EXISTS Musician_Genre(
-    Mus_Gen_ID SERIAL PRIMARY KEY, 
-    Musician_ID INTEGER REFERENCES Genre(ID), 
-    Genre_ID INTEGER REFERENCES Musician(ID)
-    );
-CREATE TABLE IF NOT EXISTS Collections(
-    ID SERIAL PRIMARY KEY, 
-    Collection_Name VARCHAR(60) NOT NULL, 
-    Collection_Year DATA NOT NULL
-    );
-CREATE TABLE IF NOT EXISTS Albums(
-    ID SERIAL PRIMARY KEY, 
-    Album_Name VARCHAR(60) NOT NULL,
-    Album_Year DATA NOT NULL,
-    );
-CREATE TABLE IF NOT EXISTS Musician_Album(
-    ID SERIAL PRIMARY KEY, 
-    Musician_ID INTEGER REFERENCES Musician(ID), 
-    Albums_ID INTEGER REFERENCES Albums(ID)
-    );
-CREATE TABLE IF NOT EXISTS Song(
-    ID SERIAL PRIMARY KEY, 
-    Track_Name VARCHAR(60) NOT NULL,
-    Albums_ID INTEGER REFERENCES Albums(ID),
-    Track_Time TIME NOT NULL
-    );
-CREATE TABLE IF NOT EXISTS Collection_Track(
-    ID SERIAL PRIMARY KEY, 
-    Collect_ID INTEGER REFERENCES Collections(ID), 
-    Track_ID INTEGER REFERENCES Song(ID),
-    Album_ID INTEGER REFERENCES Albums(ID)
-    );
+-- Создаем таблицу Жанр(genre)+
+CREATE TABLE IF NOT EXISTS genre(
+	genre_name VARCHAR(40) UNIQUE NOT null,
+	id SERIAL PRIMARY key);
+
+-- Создаем таблицу Исполнителей(musician)
+CREATE TABLE IF NOT EXISTS musician(
+    first_name VARCHAR(20), 
+    last_name VARCHAR(20) NOT NULL,
+    nick_name VARCHAR(40),
+    id SERIAL PRIMARY KEY);
+   
+-- Создаем таблицу связей Исполинтелей и Жанров (musician_genre)
+CREATE TABLE IF NOT EXISTS musician_genre(
+    musician_id INTEGER REFERENCES musician(id), 
+    genre_id INTEGER REFERENCES genre(id),
+    mus_gen_id SERIAL PRIMARY KEY);
+   
+-- Создаем таблицу Колекций(collections)
+CREATE TABLE IF NOT EXISTS collections(
+    collection_name VARCHAR(60) unique NOT NULL, 
+    collection_year NUMERIC(4, 0) NOT NULL,
+    id SERIAL PRIMARY KEY);
+   
+-- Создаем таблицу Альбомы(albums)
+CREATE TABLE IF NOT EXISTS albums(
+    album_name VARCHAR(60) NOT NULL,
+    album_year NUMERIC(4, 0) NOT null,
+    id SERIAL PRIMARY KEY);
+   
+-- Создаем таблицу связей Исполнители и Альбомы (musician_album)
+CREATE TABLE IF NOT EXISTS musician_album(
+    musician_id INTEGER REFERENCES musician(id), 
+    albums_id INTEGER REFERENCES albums(id),
+    id SERIAL PRIMARY KEY);
+   
+-- Создаем таблицу Песен(song)
+CREATE TABLE IF NOT EXISTS song(
+	id SERIAL PRIMARY key,
+	track_num NUMERIC(3, 0) NOT NULL,
+    track_name VARCHAR(60) NOT NULL,
+    albums_id INTEGER REFERENCES albums(id),
+    track_time TIME NOT null);
+   
+-- Создаем таблицу Сборники(collection_track)
+CREATE TABLE IF NOT EXISTS collection_track(
+    id SERIAL PRIMARY key,
+	collect_id INTEGER REFERENCES collections(id), 
+    track_id INTEGER REFERENCES song(id));
